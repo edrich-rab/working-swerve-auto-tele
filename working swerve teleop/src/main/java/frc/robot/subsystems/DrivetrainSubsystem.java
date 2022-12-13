@@ -20,9 +20,10 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 
 import static frc.robot.Constants.*;
 
@@ -81,6 +82,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
   // FIXME Uncomment if you are using a NavX
   //MAYBE CHANGE
   private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
+  private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(Constants.kDriveKinematics,
+  new Rotation2d(0));
   //private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(kDriveKinematics,
   //new Rotation2d(0));
 //private final AHRS m_navx = new AHRS(SPI.Port.kMXP);
@@ -206,6 +209,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 //
     // We have to invert the angle of the NavX so that rotating the robot counter-clockwise makes the angle increase.
     return Rotation2d.fromDegrees(360.0 - m_navx.getYaw());
+  }
+
+  public Pose2d getPose(){
+        return odometer.getPoseMeters();
   }
 
   public void drive(ChassisSpeeds chassisSpeeds) {

@@ -7,7 +7,18 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.util.List;
+
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -15,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.AutoCommand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -73,10 +85,21 @@ public class RobotContainer {
    
   public Command getAutonomousCommand() {
     //example command runing whatever
-   return new AutoCommand(m_drivetrainSubsystem, 0.0, 10.0, 0.0);
+   //return new AutoCommand(m_drivetrainSubsystem, 0.0, 10.0, 0.0);
    //return new InstantCommand();
    //^^ this is what it does in robot
 
+   //CREATE A VOLTAGE CONSTRAINT
+   //var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(Constants., AutoConstants.), Constants.kDriveKinematics, 12.0);
+
+   //TRAJECTORY CONFIGURATION
+   TrajectoryConfig config = new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond, AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+   .setKinematics(Constants.kDriveKinematics);
+   //.addConstraint(autoVoltageConstraint); 
+
+   //TRAJECTORY
+   Trajectory moveGurl = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1, 1), new Translation2d(2, 3)), new Pose2d(3, 0, new Rotation2d(0)), config);
+   
   }
 
   private static double deadband(double value, double deadband) {
