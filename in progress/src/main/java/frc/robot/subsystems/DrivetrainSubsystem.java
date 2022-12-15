@@ -231,6 +231,7 @@ public void setModuleStates(SwerveModuleState[] desiredStates) {
 
   public void drive(ChassisSpeeds chassisSpeeds) {
     m_chassisSpeeds = chassisSpeeds;
+    m_frontLeftModule.getDriveVelocity();
   }
 
   @Override
@@ -250,5 +251,7 @@ public void setModuleStates(SwerveModuleState[] desiredStates) {
     SmartDashboard.putNumber("NAVX: YAW", m_navx.getYaw());
     SmartDashboard.putNumber("NAVX l:", m_navx.getCompassHeading());
     SmartDashboard.putString("Auto: ", "Periodic method");
+    SmartDashboard.putNumber("Velocity: ", m_frontLeftModule.getDriveVelocity());
+
 }
 }

@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
 
 import java.util.List;
 
@@ -43,7 +45,6 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
-
   private final XboxController m_controller = new XboxController(0);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -93,16 +94,21 @@ public class RobotContainer {
    //^^ this is what it does in robot
 
 
+   SmartDashboard.putNumber("Px: ", SmartDashboard.getNumber("Px: ", 0));
+   SmartDashboard.putNumber("Py: ", SmartDashboard.getNumber("Py: ", 0));
+
+
    //TRAJECTORY CONFIGURATION
    TrajectoryConfig config = new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond, AutoConstants.kMaxAccelerationMetersPerSecondSquared)
    .setKinematics(Constants.kDriveKinematics);
    //.addConstraint(autoVoltageConstraint); 
 
    //TRAJECTORY
-   Trajectory moveGurl = TrajectoryGenerator.generateTrajectory(
+   Trajectory moveGurl = TrajectoryGenerator.generateTrajectory(          //coordinate points to go to
       new Pose2d(0, 0, new Rotation2d(0)), 
-      List.of(new Translation2d(1, 0), new Translation2d(2, 0)),
-      new Pose2d(3, 0, new Rotation2d(0)), 
+      //List.of(new Translation2d(0.3, 0), new Translation2d(0.6, 0), new Translation2d(0.9, 0), new Translation2d(1.2, 0), new Translation2d(1.5, 0)),
+      List.of(new Translation2d(50, 0)),
+      new Pose2d(100, 0, new Rotation2d(0)), 
       config);
    
 
@@ -112,12 +118,12 @@ public class RobotContainer {
   thetaController.enableContinuousInput(-Math.PI, Math.PI);
    //new PIDController(0, 0, 0), m_drivetrainSubsystem);
 
-    SwerveControllerCommand comm = new SwerveControllerCommand(
+    SwerveControllerCommand comm = new SwerveControllerCommand(     //make it move
       moveGurl, 
       m_drivetrainSubsystem::getPose, 
       Constants.kDriveKinematics, 
-      new PIDController(AutoConstants.kPXController, 0, 0), 
-      new PIDController(AutoConstants.kPYController, 0, 0), 
+      new PIDController(0, 0, 0),         
+      new PIDController(0, 0, 0), 
       thetaController,
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);

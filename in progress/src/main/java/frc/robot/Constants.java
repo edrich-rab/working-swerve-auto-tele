@@ -60,17 +60,17 @@ public final class Constants {
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(172.1); // FIXME Measure and set back right steer offset
 
     public static final class AutoConstants {
-        public static final double kMaxSpeedMetersPerSecond = 0.5;
+        public static final double kMaxSpeedMetersPerSecond = 5;
         /*6380.0 / 60.0 *
         SdsModuleConfigurations.MK4I_L1.getDriveReduction() *
         SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;*/
 
-        public static final double kMaxAngularSpeedRadiansPerSecond = 0.5;
+        public static final double kMaxAngularSpeedRadiansPerSecond = 5;
         /*kMaxSpeedMetersPerSecond /
         Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);*/
 
         //CHANGE BELOW AND CHECK
-        public static final double kMaxAccelerationMetersPerSecondSquared = 1;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
         public static final double kPXController = 0;         //1.5
         public static final double kPYController = 0;         //1.5
